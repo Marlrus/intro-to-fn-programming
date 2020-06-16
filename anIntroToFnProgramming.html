@@ -1,0 +1,168 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        code{
+            background-color: rgba(0,0,0,.075);
+            font-weight: bold;
+        }
+        .subtitle{
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0;
+            padding: 5px;
+            margin-top: 5px;
+            background-color: rgba(0,0,0,.075);
+            text-align: center;
+        }
+        h3{
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+            padding: 5px;
+            margin-top: 10px;
+        }
+        .paragraph{
+            margin: 0.5rem 0 0.5rem;
+        }
+        .tab{
+            margin: 0 1rem;
+        }
+        html{
+            scroll-behavior: smooth;
+        }
+        </style>
+
+    <title>An Intro to Functional Programming</title>
+  </head>
+  <body>
+      
+    <div class="container">
+        <h1 class="display-3 text-center">An Intro to Functional Programming<hr></h1>
+        <header>
+            <p class="paragraph">
+                Study into functional Programming from the article <a href="https://codewords.recurse.com/issues/one/an-introduction-to-functional-programming"> An introduction to functional programming</a> by Mary Rose Cook. The article uses python, but I did the exercise in TS. We see how we can use <code>map()</code> and <code>reduce()</code> to iterate over data. We see how we can write declarativley, not imperatively describing <em>WHAT</em> we want to happen not <em>HOW</em> we want it to happen. We create pipelines that let us pass a data through transformations of our choosing for clearer code. This is a good way to dip into functional programming. 
+            </p>
+        </header>
+
+        <h2 id="00" class="subtitle">Index</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>
+                        <a href="#01">Intro</a>
+                    </td>
+                    <td>
+                        The esscence of Functional programming: Absence of side-effects
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>
+                        <a href="#02">Don't Iterate (Map and Reduce)</a>
+                    </td>
+                    <td>
+                        We can replace loops with map and reduce almost entriely. I go over the increment operator before a variable as it cause and error for me. This way of looping is often a one liner that has everything set in the same place. Also it is a safeguard to mutating data.
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>
+                        <a href="#03">Write declaratively, not Imperatively</a>
+                    </td>
+                    <td>
+                        We create a race "game" that uses functions telling WHAT we want to do to alter a State that would determine what we execute. 
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>
+                        <a href="#04">Use Pipelines</a>
+                    </td>
+                    <td>
+                        We create a set of functions to alter a data set without causing mutation and then create a general function that applies those transformations in sequence. This makes it easier to reason about what we are doing and creates our result without altering the original dataset.  
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a id="01" href="#00">Index</a>
+                <h2 class="subtitle">Intro</h2>
+                <p class="paragraph">
+                    This article uses Python for examples, I will atempt to follow with TS. It shows examples of imperative, unfonctional code that we use every day and how to translate them to functional style. There are many things that people talk about when talking about functional programming: immutable data, first class functions, tail call optimization (Lang features), mapping, reducing, pipelining, recursing, currying, higher order functions (Techniques), parallelization, lazy evaluation, and determinism (Properties). We should ignore all that, Fn code is cahraterised by ONE thing <strong>Absence of side-effects.</strong> It doesn't change data that exists outside of the current function, every other "functional" thing can be derived from this property. 
+                </p>
+                <a id="02" href="#00">Index</a>
+                <h2 class="subtitle">Don't Iterate (Map and Reduce)</h2>
+                <p class="paragraph">
+                    We can do basic loop functionality with one liners that don't have side effects using map() and reduce(). We find square values of a number array using map, by having an opeartion be applied to every element in the array, this returns a new array that doesn't mutate the original data. Then we use reduce to add all the numbers in the array. We create an array of animals and use reduce to find the ammount of times an animal repeats using reduce(). <strong>Note:</strong> this was a bit tricky because I was using the JS increment opeartor in a way that did not work. After reading I found that using ++number is a different implementation: ++x (pre-increment) means "increment the variable; the value of the expression is the final value" and x++ (post-increment) means "remember the original value, then increment the variable; the value of the expression is the original value", so by switching the count to ++count it worked perfectly. 
+                </p>
+                <p class="pargraph">
+                    The author pushes for the use of these over loops for a few reasons: First, they are often one-liners. Second, The collection, operation, and return value are in the same place in every map and reduce. Third, loops may have side-effects, while map and reduce are pure functions. Fourth, map and reduce are at once building blocks that can be combined into comples algorithms, and elements that the code reader can instanlty understand and abstract in their mind. fith, map and reduce have many friends that provide useful tweaked versions of their basic behaviours such as filter, any, all, and find. 
+                </p>
+                <p class="paragraph">
+                    We are shown a loop that we should transform to functions, since the end goal wasn't clear, I just did functions to store the values that the code showed. Since we just wanted to get the average height I boiled the loops to a single reduce function. 
+                </p>
+                <a id="03" href="#00">Index</a>
+                <h2 class="subtitle">Write declaratively, not imperatively</h2>
+                <p class="paragpraph">
+                    We want to write a function that runs a "race" between 3 cars. Every car has a 2/3 chance to move, there are 5 iterations, and we want to console.log() the position of each car on each iteration. We want to do this with a functional approach focusing on <em>WHAT</em> we want to achieve not <em>HOW</em> we want to achieve it. We bundle pieces into functions and do it through <strong>State</strong> management. We create a state that has {time: number, carPositions: number[]} and we use that in all of our functions to execute the race. These are NOT pure functions as they alter the state that they handle. 
+                </p>
+                <p class="paragraph">
+                    We want to move the cars, alter the car positions every step, and we want to "draw" the race in our console. For moving the cars we use map on the carPositions and use <code>carPos=> Math.random() > 0.3 ? ++carPos : carPos</code> on every step of the race we want to return a new race state where time passes and cars move <code>return { time: raceState.time - 1, carPositions: moveCars(raceState)</code> <strong>Note:</strong> We are using destructuring to pass the state to every function but use only the value we need. Then we drawState which uses the car positions to console.log. We use <code>.map(carPos=> console.log('\n' + '-'.repeat(carPos))</code> which will add a space between each car, and then print - by the car position they are in using .repeat(). Finally we create a race() that will execute everything and be recurring <code>const race(raceState: RaceState)=> { if(raceState.time > 0){ drawState(raceState); race(stepOfRace(raceState)) } }</code> which will call race until raceState.time reaches 0. 
+                </p>
+                <p class="paragraph">
+                    I created an alternative, non recursive way of handling this using while <code>const race (...) => { while(raceState.time > 0) drawState(raceState); raceState = stepOfRace(raceState) } }</code> This also worked and doesn't create a burden in the callstack. For sake of praciticng recursion, I did recursion. 
+                </p>
+                <a id="04" href="#00">Index</a>
+                <h2 class="subtitle">Use Pipelines</h2>
+                <p class="pargraph">
+                    We create two functions that evaluate a string, one evaluates if the first value is 0, and if it is it returns the rest of the string, if not it returns null. The other one does the same with 1. We want to create a function that evaluates a string through the rules we put in. <code>fn('0101',[zero,one...])</code> without using a for loop. We do this through recursion with <code>const ruleSequence = (string: string, rules: Function[]):string | null => ...</code> inside we evaluate <code>!string || rules.length === 0 ? string : ruleSequence(rules[0](string), rules.slice(1))</code> which will return null if one rule fails, or run the next function in line if we had a return and slices the rules array for the next call. 
+                </p>
+                <p class="paragraph">
+                    <strong>Second Pipeline</strong>
+                    <br>
+                    We refactored imperative loops as recursions that caled auxiliary functions. There is another way of re-writing this called <strong>pipelining</strong>. We get a data set of bands, with name, country, and active status. We want to change the country to Germany on all objects, Capitalize the Name of the band, and remove punctuation marks. We want to run these as separate logic enitites to make clear what we are actually doing, additionally I plan on doing it without altering the original data set.
+                </p>
+                <p class="paragraph">
+                    All of what we want to do can be done with map(). We use spread syntax to return a Band object with our changes <code>return { ...band, country: 'Canada' }</code> then <code>return { ...band, name: band.name.replace('.','') }</code> and the other functionality is a bit more complex. We create another function that will split our string into an array of words, then capitalize the first letter and concat it with the rest of the word, and then joins them with a space. <code>string.split(' ').map(word=> word[0].toUpperCase().concat(word.slice(1))).join(' ')</code> we then run this through our thir piece of logic <code>bands.map(band=> { return {... band, name: capitalizeStrings(band.name) } } )</code>.
+                </p>
+                <p class="paragraph">
+                    <strong>The Pipeline</strong>
+                    <br>
+                    We create a function that will take an argument for the data set, and then an array of functions to apply to the data set <code>pipelineEach(bands, [setCanadaAsCountry, removePunctuation, capitalizeNames])</code> which is now clearer about what we want to do: get bands, set the country to Candada, remove punctuation, and captialize the names. By using maps I didn't muatate the original data, meaning my processing is side-effect free. 
+                </p>
+                <p class="paragraph">
+                    We add one more transforamtion that is to return the array having the name and country only, this is easy with map as well <code>bands.map(band=> { return {name: band.name, country: band.country} } )</code> which will return a new array just with the name and country. As a side-note, TS cannot infer that the functions we are passing will acutally return what we set to pipelineEach(), I set it to <code>: Band[]</code> but after the last function I just return <code>{name: string, country: string}</code>. 
+                </p>
+                <p class="paragraph">
+                    We could also do this with more functions by creating a function that applies our transformation to a given key and copies it. Fortunatley we are doing that in JS the way we have it set up, but we could make it more "reusable" by having a call() that applies logic to a key. This makes it so that we can apply the logic of each of our steps to any field in the data set we want. I will not do this beacuse reasons... 
+                </p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>
